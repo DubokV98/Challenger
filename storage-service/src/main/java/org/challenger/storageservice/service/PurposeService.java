@@ -30,4 +30,12 @@ public interface PurposeService {
      * @return - purpose dto
      */
     PurposeDto findById(String id);
+
+    /**
+     * Update purpose dto
+     *
+     * @param purposeDto - purpose dto for update
+     * @return updated purpose dto
+     */
+    PurposeDto update(PurposeDto purposeDto);
 }

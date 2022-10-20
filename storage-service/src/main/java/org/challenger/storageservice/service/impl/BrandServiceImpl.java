@@ -47,4 +47,9 @@ public class BrandServiceImpl implements BrandService {
 
         return save(brandMapper.map(brand));
     }
+
+    @Override
+    public BrandDto update(final BrandDto brandDto) {
+        return brandMapper.map(brandRepository.save(brandMapper.map(brandDto)));
+    }
 }

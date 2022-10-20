@@ -38,4 +38,9 @@ public class PurposeServiceImpl implements PurposeService {
         return purposeMapper.map(purposeRepository.findById(id)
             .orElseThrow(PurposeNotFoundException.withId(id)));
     }
+
+    @Override
+    public PurposeDto update(final PurposeDto purposeDto) {
+        return purposeMapper.map(purposeRepository.save(purposeMapper.map(purposeDto)));
+    }
 }

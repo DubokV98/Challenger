@@ -64,4 +64,19 @@ public interface MotorcycleService {
      * @return list of motorcycle with brand and purpose
      */
     List<MotorcycleDto> findAllByPurposeAndBrand(String purposeId, String brandId);
+
+    /**
+     * Update motorcycle dto
+     *
+     * @param motorcycleDto - motorcycle dto for update
+     * @return updated motorcycle dto
+     */
+    MotorcycleDto update(MotorcycleDto motorcycleDto);
+
+    /**
+     * Find all and sorted by total reviews desc
+     *
+     * @return list of motorcycle that sorted by total reviews desc
+     */
+    List<MotorcycleDto> findAllSortedByTotalReviewsDesc();
 }

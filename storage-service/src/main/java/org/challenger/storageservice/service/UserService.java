@@ -1,6 +1,9 @@
 package org.challenger.storageservice.service;
 
+import org.challenger.common.dto.OrderDto;
 import org.challenger.common.dto.UserDto;
+
+import java.util.List;
 
 /**
  * @author u.dubok
@@ -30,4 +33,20 @@ public interface UserService {
      * @return user dto
      */
     UserDto findById(String id);
+
+    /**
+     * Update user dto
+     *
+     * @param userDto - user dto for update
+     * @return updated user dto
+     */
+    UserDto update(UserDto userDto);
+
+    /**
+     * Find all orders for user
+     *
+     * @param userId - user id
+     * @return all orders for provided user id
+     */
+    List<OrderDto> findAllOrdersByUserId(String userId);
 }

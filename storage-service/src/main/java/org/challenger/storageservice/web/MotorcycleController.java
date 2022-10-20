@@ -6,6 +6,7 @@ import org.challenger.storageservice.service.MotorcycleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,5 +57,15 @@ public class MotorcycleController {
     @GetMapping("/find-all-by-purpose-and-brand")
     public List<MotorcycleDto> findAllByPurposeId(final @RequestParam String purposeId, final @RequestParam String brandId) {
         return motorcycleService.findAllByPurposeAndBrand(purposeId, brandId);
+    }
+
+    @PutMapping
+    private MotorcycleDto update(@RequestBody final MotorcycleDto motorcycleDto) {
+        return motorcycleService.update(motorcycleDto);
+    }
+
+    @GetMapping("/find-most-viewed")
+    private List<MotorcycleDto> findAllSortedByTotalReviewsDesc() {
+        return motorcycleService.findAllSortedByTotalReviewsDesc();
     }
 }

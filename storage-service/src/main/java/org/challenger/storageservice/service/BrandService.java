@@ -38,4 +38,12 @@ public interface BrandService {
      * @return brand dto with list of purposes
      */
     BrandDto addPurposes(BrandDto brandDto);
+
+    /**
+     * Update Brand dto
+     *
+     * @param brandDto - Brand dto for update
+     * @return updated brand dto
+     */
+    BrandDto update(BrandDto brandDto);
 }

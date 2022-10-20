@@ -80,6 +80,21 @@ public class MotorcycleServiceImpl implements MotorcycleService {
             .collect(Collectors.toList());
     }
 
+    @Override
+    public MotorcycleDto update(final MotorcycleDto motorcycleDto) {
+        return motorcycleMapper.map(motorcycleRepository.save(motorcycleMapper.map(motorcycleDto)));
+    }
+
+    @Override
+    public List<MotorcycleDto> findAllSortedByTotalReviewsDesc() {
+        return motorcycleRepository.findAll()
+            .stream()
+            .map(motorcycleMapper::map)
+            .sorted((o1, o2) -> o2.getStatistic().getTotalReviews().compareTo(o1.getStatistic().getTotalReviews())
+            )
+            .collect(Collectors.toList());
+    }
+
     private void updateStatisticTotalReviews(final String id, final Long newValue) {
         final Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id));
