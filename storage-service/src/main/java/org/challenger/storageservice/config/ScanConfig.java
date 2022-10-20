@@ -1,4 +1,4 @@
-package org.challenger.shopservice.config;
+package org.challenger.storageservice.config;
 
 import org.springframework.context.annotation.ComponentScan;
 
@@ -6,6 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
  * @author u.dubok
  * @since 9/29/2022
  */
-@ComponentScan(basePackages = {"org.challenger.shopservice"})
+@ComponentScan(basePackages = {"org.challenger.storageservice"})
 public class ScanConfig {
 }

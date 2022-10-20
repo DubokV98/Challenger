@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    import: application-common.yml
+  data:
+    mongodb:
+      database: challenger
+      authentication-database: admin
+      uri: mongodb://admin:admin@localhost:27017
+      auto-index-creation: true
