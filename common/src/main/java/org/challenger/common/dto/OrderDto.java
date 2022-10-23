@@ -2,7 +2,6 @@ package org.challenger.common.dto;
 
 import lombok.Data;
 import org.challenger.common.dto.embedded.Address;
-import org.challenger.common.dto.embedded.MotorcycleForOrder;
 import org.challenger.common.mapper.MappedDto;
 
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ public class OrderDto implements MappedDto {
 
     private String userId;
 
-    private List<MotorcycleForOrder> lineItems;
+    private List<String> lineItems;
     private Address shippingAddress;
     private Double subTotal;
 }
