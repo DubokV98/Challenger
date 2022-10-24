@@ -1,10 +1,13 @@
 package org.challenger.storageservice.service;
 
 import org.challenger.common.dto.OrderDto;
+import org.challenger.common.dto.embedded.Address;
 import org.challenger.common.enums.OrderStatus;
+import org.challenger.storageservice.model.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author u.dubok
@@ -24,9 +27,17 @@ public interface OrderService {
      * find order by id
      *
      * @param id - id
-     * @return founded orderDto
+     * @return optional order
      */
-    OrderDto findById(String id);
+    Optional<Order> findById(String id);
+
+    /**
+     * find orderDto by id
+     *
+     * @param id - id
+     * @return order dto
+     */
+    OrderDto findOrderDtoById(String id);
 
     /**
      * Update Brand dto
@@ -53,24 +64,32 @@ public interface OrderService {
     List<OrderDto> findAllByUserId(final String userId);
 
     /**
-     * Confirm delivery
+     * Confirm that order was delivered
      *
      * @param id - order id
      */
-    void confirmDelivery(String id);
+    void deliveryConfirmation(String id);
+
+    /**
+     * Confirm that order ready for paying
+     *
+     * @param orderId       - order id
+     * @param localDateTime - string date of delivery
+     */
+    void orderConfirmation(String orderId, final String localDateTime);
 
     /**
      * Add line item to order
      *
      * @param orderId - order id
-     * @param lineId - motorcycle id
+     * @param lineId  - motorcycle id
      */
-    void addLineItemToOrder(String orderId, String lineId);
+    void addLineItemToOrderProcess(String orderId, String lineId);
 
     /**
      * Create new order
      *
-     * @param userId - user id
+     * @param userId - userId
      * @return created order
      */
     OrderDto create(String userId);
@@ -83,4 +102,21 @@ public interface OrderService {
      * @return order dto
      */
     OrderDto findByUserIdAndStatus(String userId, OrderStatus status);
+
+    /**
+     * Add address to order
+     *
+     * @param orderId - orderId
+     * @param address - user address
+     * @return orderDto
+     */
+    OrderDto addAddress(String orderId, Address address);
+
+    /**
+     * Pay for order
+     *
+     * @param orderId - order id
+     * @param userId  - user id
+     */
+    void payForOrder(String orderId, String userId);
 }

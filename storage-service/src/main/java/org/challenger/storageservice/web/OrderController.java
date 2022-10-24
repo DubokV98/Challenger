@@ -2,6 +2,7 @@ package org.challenger.storageservice.web;
 
 import lombok.RequiredArgsConstructor;
 import org.challenger.common.dto.OrderDto;
+import org.challenger.common.dto.embedded.Address;
 import org.challenger.common.enums.OrderStatus;
 import org.challenger.storageservice.service.OrderService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +31,14 @@ public class OrderController {
         return orderService.save(orderDto);
     }
 
-    @GetMapping("/find-all")
+    @GetMapping
     public List<OrderDto> findAll() {
         return orderService.findAll();
     }
 
-    @GetMapping("/find-by-id")
-    public OrderDto findById(@RequestParam final String id) {
-        return orderService.findById(id);
+    @GetMapping("/{id}")
+    public OrderDto findById(@PathVariable final String id) {
+        return orderService.findOrderDtoById(id);
     }
 
     @PutMapping
@@ -50,18 +51,34 @@ public class OrderController {
         return orderService.findByUserIdAndStatus(userId, status);
     }
 
-    @PutMapping("/{orderId}/add-line")
-    public void addLineItems(@PathVariable final String orderId, @RequestBody final String lineId) {
-        orderService.addLineItemToOrder(orderId, lineId);
+    @PutMapping("/{orderId}/line-item")
+    public void addLineItems(@PathVariable final String orderId,
+                             @RequestParam final String lineId) {
+        orderService.addLineItemToOrderProcess(orderId, lineId);
     }
 
-    @PutMapping("/{id}/confirmation")
-    public void confirmDelivery(@PathVariable final String id) {
-        orderService.confirmDelivery(id);
+    @PutMapping("/{orderId}/delivery-confirmation")
+    public void deliveryConfirmation(@PathVariable final String orderId) {
+        orderService.deliveryConfirmation(orderId);
+    }
+
+    @PutMapping("/{orderId}/order-confirmation")
+    public void orderConfirmation(@PathVariable final String orderId, @RequestParam final String localDateTime) {
+        orderService.orderConfirmation(orderId, localDateTime);
     }
 
     @PostMapping("/create")
     public OrderDto createForUser(@RequestParam final String userId) {
         return orderService.create(userId);
+    }
+
+    @PutMapping("/{orderId}/address")
+    public OrderDto createForUser(@PathVariable final String orderId, @RequestBody final Address address) {
+        return orderService.addAddress(orderId, address);
+    }
+
+    @PutMapping("/{orderId}/pay")
+    public void payOrder(@PathVariable final String orderId, @RequestParam final String userId) {
+        orderService.payForOrder(orderId, userId);
     }
 }

@@ -6,6 +6,7 @@ package org.challenger.common.enums;
  */
 public enum OrderStatus {
     CREATED,
+    READY_FOR_PAYMENT,
     PAID,
     ON_DELIVERY,
     DELIVERED
