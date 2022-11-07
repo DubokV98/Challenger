@@ -7,6 +7,7 @@ import org.challenger.storageservice.model.Motorcycle;
 import org.challenger.storageservice.repository.MotorcycleRepository;
 import org.challenger.storageservice.service.MotorcycleService;
 import org.challenger.storageservice.service.mapper.MotorcycleMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -87,11 +88,11 @@ public class MotorcycleServiceImpl implements MotorcycleService {
 
     @Override
     public List<MotorcycleDto> findAllSortedByTotalReviewsDesc() {
-        return motorcycleRepository.findAll()
-            .stream()
-            .map(motorcycleMapper::map)
-            .sorted((o1, o2) -> o2.getStatistic().getTotalReviews().compareTo(o1.getStatistic().getTotalReviews())
-            )
+
+        final Sort sort = Sort.by("statistic.totalReviews").descending();
+        final Query query = new Query();
+        query.with(sort);
+        return mongoTemplate.find(query, Motorcycle.class).stream().map(motorcycleMapper::map)
             .collect(Collectors.toList());
     }
 
@@ -100,7 +101,6 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         query.addCriteria(Criteria.where("_id").is(id));
         final Update updateQuery = new Update();
         updateQuery.set("statistic.totalReviews", newValue);
-
         mongoTemplate.updateFirst(query, updateQuery, Motorcycle.class);
     }
 }
