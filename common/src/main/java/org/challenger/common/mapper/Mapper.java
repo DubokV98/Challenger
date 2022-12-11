@@ -43,7 +43,7 @@ public abstract class Mapper<E extends MappedEntity, D extends MappedDto> {
         log.debug("Initializing of {}", this.getClass());
 
         final ConfigInitializer<E, D> cfg =
-                new ConfigInitializer<>(this.getClass(), getEntityExclusions(), getDtoExclusions());
+            new ConfigInitializer<>(this.getClass(), getEntityExclusions(), getDtoExclusions());
 
         classEnt = cfg.getClassEntity();
         classDto = cfg.getClassDto();
