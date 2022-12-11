@@ -19,7 +19,7 @@ public class BrandMapper extends Mapper<Brand, BrandDto> {
      * @param from source object
      * @param to   target object after the conversion
      */
-    public void customConversion(final Brand from, final Brand to) {
+    public void customConversion(final Brand from, final BrandDto to) {
         Optional.ofNullable(from.getId()).ifPresent(to::setId);
     }
 }

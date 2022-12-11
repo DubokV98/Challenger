@@ -6,7 +6,6 @@ import org.challenger.storageservice.exception.BrandNotFoundException;
 import org.challenger.storageservice.model.Brand;
 import org.challenger.storageservice.repository.BrandRepository;
 import org.challenger.storageservice.service.BrandService;
-import org.challenger.storageservice.service.PurposeService;
 import org.challenger.storageservice.service.mapper.BrandMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
-    private final PurposeService purposeService;
     private final BrandMapper brandMapper;
 
     @Override

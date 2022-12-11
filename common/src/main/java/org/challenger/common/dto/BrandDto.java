@@ -1,6 +1,9 @@
 package org.challenger.common.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.challenger.common.mapper.MappedDto;
 
 import java.util.List;
@@ -10,6 +13,9 @@ import java.util.List;
  * @since 10/12/2022
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class BrandDto implements MappedDto {
     private String id;
 
