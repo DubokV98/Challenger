@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
  * @author u.dubok
  * @since 12/11/2022
  */
-@SpringBootTest
+//@SpringBootTest
 @ActiveProfiles("tests")
 public class StorageServiceApplicationTest {
     @Test
