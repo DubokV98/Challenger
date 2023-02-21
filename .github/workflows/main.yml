@@ -1,0 +1,73 @@
+name: Challenger
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+  push:
+    branches:
+      - develop
+
+jobs:
+
+  unit-tests:
+    name: Maven test phase
+
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout data
+        uses: actions/checkout@v2
+
+      - name: Corretto install
+          run: |
+            wget -O- https://apt.corretto.aws/corretto.key | sudo apt-key add - 
+            sudo add-apt-repository 'deb https://apt.corretto.aws stable main'
+            sudo apt-get update; sudo apt-get install -y java-17-amazon-corretto-jdk
+            export JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
+            export PATH=$JAVA_HOME/bin:$PATH
+
+      - name: Java version
+          run: |
+            echo "######### CORRETTO VERSION #########"
+            java -version
+            echo "####################################"
+
+      - name: Maven setup
+        uses: s4u/setup-maven-action@v1.6.0
+        with:
+          java-version: 17
+          maven-version: 3.8.6
+
+      - name: Maven version
+        run: |
+          echo "########## MAVEN VERSION ###########"
+          mvn -version
+          echo "####################################"      
+
+      - name: Set General env
+        run: |
+          echo "################# STORAGE SERVICE ENV ##################"
+          echo "SS_APP_NAME=storage-service" >> $GITHUB_ENV
+          echo "SS_PORT=80" >> $GITHUB_ENV
+          echo "########################################################"     
+
+      - name: Common module install
+        working-directory: ./common
+        run: |
+          mvn clean install  
+
+      - name: Storage service testing
+        working-directory: ./${{ env.SS_APP_NAME }}
+        run: |
+          mvn test
+
+  service-building:
+    name: Maven install phase
+    needs: [unit-tests]
