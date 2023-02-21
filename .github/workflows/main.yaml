@@ -23,18 +23,16 @@ jobs:
     steps:
 
       - name: Checkout data
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Corretto install
-          run: |
-            wget -O- https://apt.corretto.aws/corretto.key | sudo apt-key add - 
-            sudo add-apt-repository 'deb https://apt.corretto.aws stable main'
-            sudo apt-get update; sudo apt-get install -y java-17-amazon-corretto-jdk
-            export JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
-            export PATH=$JAVA_HOME/bin:$PATH
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
 
       - name: Java version
-          run: |
+        run: |
             echo "######### CORRETTO VERSION #########"
             java -version
             echo "####################################"
@@ -68,6 +66,6 @@ jobs:
         run: |
           mvn test
 
-  service-building:
-    name: Maven install phase
-    needs: [unit-tests]
+  #service-building:
+    #name: Maven install phase
+    #needs: [unit-tests]
