@@ -3,6 +3,7 @@ package org.challenger.storageservice.web;
 import lombok.RequiredArgsConstructor;
 import org.challenger.common.dto.PurposeDto;
 import org.challenger.storageservice.service.PurposeService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author u.dubok
  * @since 10/7/2022
@@ -19,9 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/storage/purpose")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PurposeController {
 
     private final PurposeService purposeService;
+
+    @GetMapping
+    public List<PurposeDto> findAll() {
+        return purposeService.findAll();
+    }
 
     @GetMapping("/{token}")
     public PurposeDto findByToken(@PathVariable final String token) {

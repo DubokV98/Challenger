@@ -2,6 +2,8 @@ package org.challenger.storageservice.service;
 
 import org.challenger.common.dto.PurposeDto;
 
+import java.util.List;
+
 /**
  * @author u.dubok
  * @since 10/7/2022
@@ -14,6 +16,13 @@ public interface PurposeService {
      * @return return saved purpose dto
      */
     PurposeDto save(PurposeDto purposeDto);
+
+    /**
+     * find all
+     *
+     * @return list of purpose dtos
+     */
+    List<PurposeDto> findAll();
 
     /**
      * find purpose by token
