@@ -3,11 +3,14 @@ package org.challenger.storageservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.challenger.common.dto.PurposeDto;
 import org.challenger.storageservice.exception.PurposeNotFoundException;
-import org.challenger.storageservice.service.mapper.PurposeMapper;
 import org.challenger.storageservice.model.Purpose;
 import org.challenger.storageservice.repository.PurposeRepository;
 import org.challenger.storageservice.service.PurposeService;
+import org.challenger.storageservice.service.mapper.PurposeMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author u.dubok
@@ -24,6 +27,11 @@ public class PurposeServiceImpl implements PurposeService {
         purposeDto.setToken(purposeDto.getName().toLowerCase());
         final Purpose purpose = purposeMapper.map(purposeDto);
         return purposeMapper.map(purposeRepository.save(purpose));
+    }
+
+    @Override
+    public List<PurposeDto> findAll() {
+        return purposeRepository.findAll().stream().map(purposeMapper::map).collect(Collectors.toList());
     }
 
     @Override
