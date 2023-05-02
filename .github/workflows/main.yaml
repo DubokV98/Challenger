@@ -83,10 +83,10 @@ jobs:
           java-version: '17'
 
       - name: Java version
-          run: |
-            echo "######### CORRETTO VERSION #########"
-            java -version
-            echo "####################################"
+        run: |
+          echo "######### CORRETTO VERSION #########"
+          java -version
+          echo "####################################"
 
       - name: Maven setup
         uses: s4u/setup-maven-action@v1.6.0
