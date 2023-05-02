@@ -3,6 +3,7 @@ package org.challenger.storageservice.web;
 import lombok.RequiredArgsConstructor;
 import org.challenger.common.dto.MotorcycleDto;
 import org.challenger.storageservice.service.MotorcycleService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/storage/motorcycle")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MotorcycleController {
     private final MotorcycleService motorcycleService;
 
