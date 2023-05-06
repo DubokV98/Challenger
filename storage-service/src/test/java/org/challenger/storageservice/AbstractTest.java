@@ -1,4 +1,4 @@
-package com.challenger.storageservice;
+package org.challenger.storageservice;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

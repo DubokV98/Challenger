@@ -1,13 +1,12 @@
-package com.challenger.storageservice.service;
+package org.challenger.storageservice.service;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.challenger.storageservice.AbstractTest;
+import org.challenger.storageservice.AbstractTest;
 import org.challenger.common.dto.BrandDto;
 import org.challenger.storageservice.model.Brand;
 import org.challenger.storageservice.repository.BrandRepository;
-import org.challenger.storageservice.service.BrandService;
 import org.challenger.storageservice.service.impl.BrandServiceImpl;
 import org.challenger.storageservice.service.mapper.BrandMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,9 +24,7 @@ public class BrandServiceTest extends AbstractTest {
     private BrandService brandService;
     @Mock
     private BrandRepository brandRepository;
-
-    @Mock
-    private BrandMapper brandMapper;
+    private BrandMapper brandMapper = new BrandMapper();
 
     private Brand brand;
 
@@ -60,25 +57,18 @@ public class BrandServiceTest extends AbstractTest {
         );
     }
 
-    //@Test
+    @Test
     public void findById_happyPath() {
         when(brandRepository.findByToken("kawasaki")).thenReturn(Optional.of(brand));
-        when(brandMapper.map(Optional.of(brand).get())).thenReturn(mappedBrandDto);
 
         final BrandDto brandDto = brandService.findByToken("kawasaki");
 
         assertThat(brandDto.getId()).isEqualTo("1");
         assertThat(brandDto.getCountry()).isEqualTo("Japan");
-        assertThat(brandDto.getMotoPurposes()).isEmpty();
+        assertThat(brandDto.getMotoPurposes()).isNull();
         assertThat(brandDto.getName()).isEqualTo("Kawasaki");
         assertThat(brandDto.getToken()).isEqualTo("kawasaki");
 
         verify(brandRepository).findByToken("kawasaki");
-        verify(brandMapper).map(brand);
-    }
-
-    @Test
-    public void testForGithubActions() {
-        assertThat(1).isEqualTo(1);
     }
 }

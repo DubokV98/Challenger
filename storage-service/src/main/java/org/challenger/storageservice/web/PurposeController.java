@@ -3,14 +3,16 @@ package org.challenger.storageservice.web;
 import lombok.RequiredArgsConstructor;
 import org.challenger.common.dto.PurposeDto;
 import org.challenger.storageservice.service.PurposeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,13 +34,8 @@ public class PurposeController {
         return purposeService.findAll();
     }
 
-    @GetMapping("/{token}")
-    public PurposeDto findByToken(@PathVariable final String token) {
-        return purposeService.findByToken(token);
-    }
-
-    @GetMapping("/find-by-id")
-    public PurposeDto findById(@RequestParam final String id) {
+    @GetMapping("/{id}")
+    public PurposeDto findById(@PathVariable final String id) {
         return purposeService.findById(id);
     }
 
@@ -48,7 +45,13 @@ public class PurposeController {
     }
 
     @PutMapping
-    private PurposeDto update(@RequestBody final PurposeDto purposeDto) {
+    public PurposeDto update(@RequestBody final PurposeDto purposeDto) {
         return purposeService.update(purposeDto);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deletePurposeById(@PathVariable final String id) {
+        purposeService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

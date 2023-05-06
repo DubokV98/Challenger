@@ -51,4 +51,9 @@ public class PurposeServiceImpl implements PurposeService {
     public PurposeDto update(final PurposeDto purposeDto) {
         return purposeMapper.map(purposeRepository.save(purposeMapper.map(purposeDto)));
     }
+
+    @Override
+    public void deleteById(final String id) {
+        purposeRepository.deleteById(id);
+    }
 }

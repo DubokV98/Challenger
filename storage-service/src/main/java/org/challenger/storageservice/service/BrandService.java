@@ -2,6 +2,8 @@ package org.challenger.storageservice.service;
 
 import org.challenger.common.dto.BrandDto;
 
+import java.util.List;
+
 /**
  * @author u.dubok
  * @since 10/12/2022
@@ -14,6 +16,13 @@ public interface BrandService {
      * @return saved brandDto
      */
     BrandDto save(BrandDto brandDto);
+
+    /**
+     * find all
+     *
+     * @return list of brands
+     */
+    List<BrandDto> findAll();
 
     /**
      * find brand by token
@@ -46,4 +55,5 @@ public interface BrandService {
      * @return updated brand dto
      */
     BrandDto update(BrandDto brandDto);
+
 }

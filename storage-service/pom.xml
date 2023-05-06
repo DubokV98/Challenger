@@ -16,7 +16,7 @@
     <name>storage-service</name>
     <description>storage-service</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <common.version>0.0.1</common.version>
         <checkstyle.version>9.2.1</checkstyle.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
