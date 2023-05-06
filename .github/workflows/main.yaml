@@ -10,7 +10,7 @@ on:
   push:
     branches:
       - develop
-#
+
 jobs:
 
   unit-tests:
@@ -68,6 +68,7 @@ jobs:
 
   sonar-qube-scanner:
     name: SonarCloud scaner
+    needs: [ unit-tests ]
 
     runs-on: ubuntu-latest
 
@@ -92,6 +93,12 @@ jobs:
         with:
           java-version: 17
           maven-version: 3.8.6
+
+      - name: Maven version
+        run: |
+          echo "########## MAVEN VERSION ###########"
+          mvn -version
+          echo "####################################"      
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
