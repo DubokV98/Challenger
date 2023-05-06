@@ -157,47 +157,47 @@ jobs:
     
 
 
-  sonar-qube scaner:
+  sonar-qube-scanner:
     name: SonarCloud scaner
-    build:
-      name: Build and analyze
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout data
-          uses: actions/checkout@v3
 
-        - name: Corretto install
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'corretto'
-            java-version: '17'
+    runs-on: ubuntu-latest
 
-        - name: Java version
-          run: |
-            echo "######### CORRETTO VERSION #########"
-            java -version
-            echo "####################################"
+    steps:
+      - name: Checkout data
+        uses: actions/checkout@v3
 
-        - name: Maven setup
-          uses: s4u/setup-maven-action@v1.6.0
-          with:
-            java-version: 17
-            maven-version: 3.8.6
+      - name: Corretto install
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
 
-        - name: Cache SonarCloud packages
-          uses: actions/cache@v3
-          with:
-            path: ~/.sonar/cache
-            key: ${{ runner.os }}-sonar
-            restore-keys: ${{ runner.os }}-sonar
-        - name: Cache Maven packages
-          uses: actions/cache@v3
-          with:
-            path: ~/.m2
-            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-            restore-keys: ${{ runner.os }}-m2
-        - name: Build and analyze
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DubokV98_Challenger
+      - name: Java version
+        run: |
+          echo "######### CORRETTO VERSION #########"
+          java -version
+          echo "####################################"
+
+      - name: Maven setup
+        uses: s4u/setup-maven-action@v1.6.0
+        with:
+          java-version: 17
+          maven-version: 3.8.6
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DubokV98_Challenger
