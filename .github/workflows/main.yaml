@@ -34,7 +34,7 @@ jobs:
           java-version: '17'
           
       - name: my name
-        run: echo $MY_NAME
+        run: echo ${{env.MY_NAME}}
         
       - name: Java version
         run: |
