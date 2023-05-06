@@ -66,8 +66,8 @@ jobs:
         run: |
           mvn test
 
-  sonar-qube:
-    name: Sonar qube phase
+  sonar-qube-coverage:
+    name: Sonar qube coverage phase
     needs: [ unit-tests ]
 
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
@@ -104,10 +104,9 @@ jobs:
         
       - name: SonarCloud Scan
         run: mvn -B clean verify -Pcoverage,sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
   service-building:
     name: Maven package phase
-    needs: [ sonar-qube ]
+    needs: [ sonar-qube-coverage ]
 
     runs-on: ubuntu-latest
 
@@ -156,3 +155,55 @@ jobs:
         run: |
           mvn package
     
+
+
+  name: SonarCloud scaner
+  on:
+    push:
+      branches:
+        - develop
+    pull_request:
+      types: [ opened, synchronize, reopened ]
+  jobs:
+    build:
+      name: Build and analyze
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout data
+          uses: actions/checkout@v3
+
+        - name: Corretto install
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'corretto'
+            java-version: '17'
+
+        - name: Java version
+          run: |
+            echo "######### CORRETTO VERSION #########"
+            java -version
+            echo "####################################"
+
+        - name: Maven setup
+          uses: s4u/setup-maven-action@v1.6.0
+          with:
+            java-version: 17
+            maven-version: 3.8.6
+
+        - name: Cache SonarCloud packages
+          uses: actions/cache@v3
+          with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os }}-sonar
+            restore-keys: ${{ runner.os }}-sonar
+        - name: Cache Maven packages
+          uses: actions/cache@v3
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2
+        - name: Build and analyze
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DubokV98_Challenger
