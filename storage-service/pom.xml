@@ -16,6 +16,8 @@
     <name>storage-service</name>
     <description>storage-service</description>
     <properties>
+        <sonar.organization>dubokv98</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <java.version>17</java.version>
         <common.version>0.0.1</common.version>
         <checkstyle.version>9.2.1</checkstyle.version>
