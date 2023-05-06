@@ -9,6 +9,8 @@ import org.challenger.storageservice.service.BrandService;
 import org.challenger.storageservice.service.mapper.BrandMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author u.dubok
  * @since 10/12/2022
@@ -23,6 +25,11 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto save(final BrandDto brandDto) {
         final Brand brand = brandMapper.map(brandDto);
         return brandMapper.map(brandRepository.save(brand));
+    }
+
+    @Override
+    public List<BrandDto> findAll() {
+        return brandRepository.findAll().stream().map(brandMapper::map).toList();
     }
 
     @Override

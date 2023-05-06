@@ -47,4 +47,11 @@ public interface PurposeService {
      * @return updated purpose dto
      */
     PurposeDto update(PurposeDto purposeDto);
+
+    /**
+     * Delete purpose dto by id
+     *
+     * @param id id purpose
+     */
+    void deleteById(String id);
 }
