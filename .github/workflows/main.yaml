@@ -10,8 +10,6 @@ on:
   push:
     branches:
       - develop
-env:
-  MY_MANE: ULAD
 
 jobs:
 
@@ -32,9 +30,6 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
-          
-      - name: my name
-        run: echo ${{env.MY_NAME}}
         
       - name: Java version
         run: |
