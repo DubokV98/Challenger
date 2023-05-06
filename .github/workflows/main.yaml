@@ -66,9 +66,54 @@ jobs:
         run: |
           mvn test
 
+  sonar-qube-scanner:
+    name: SonarCloud scaner
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout data
+        uses: actions/checkout@v3
+
+      - name: Corretto install
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Java version
+        run: |
+          echo "######### CORRETTO VERSION #########"
+          java -version
+          echo "####################################"
+
+      - name: Maven setup
+        uses: s4u/setup-maven-action@v1.6.0
+        with:
+          java-version: 17
+          maven-version: 3.8.6
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DubokV98_Challenger
+
   service-building:
     name: Maven package phase
-    needs: [ unit-tests ]
+    needs: [ sonar-qube-scanner ]
 
     runs-on: ubuntu-latest
 
@@ -116,4 +161,3 @@ jobs:
         working-directory: ./${{ env.SS_APP_NAME }}
         run: |
           mvn package
-    
