@@ -13,6 +13,44 @@ on:
 
 jobs:
 
+  sonar-qube:
+    name: Sonar qube phase
+
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout data
+        uses: actions/checkout@v3
+
+      - name: Corretto install
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Java version
+        run: |
+          echo "######### CORRETTO VERSION #########"
+          java -version
+          echo "####################################"
+
+      - name: Maven setup
+        uses: s4u/setup-maven-action@v1.6.0
+        with:
+          java-version: 17
+          maven-version: 3.8.6
+
+      - name: Maven version
+        run: |
+          echo "########## MAVEN VERSION ###########"
+          mvn -version
+          echo "####################################"
+        
+      - name: SonarCloud Scan
+        run: mvn -B clean verify -Pcoverage,sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
   unit-tests:
     name: Maven test phase
 
