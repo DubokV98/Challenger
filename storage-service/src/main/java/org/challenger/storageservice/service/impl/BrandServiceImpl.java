@@ -29,7 +29,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll() {
-        if(1==1){
+        if (1 == 1) {
             System.out.println(true);
         }
         return brandRepository.findAll().stream().map(brandMapper::map).toList();
