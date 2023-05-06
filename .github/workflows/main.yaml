@@ -68,7 +68,7 @@ jobs:
 
   sonar-qube:
     name: Sonar qube phase
-    needs: [ sonar-qube ]
+    needs: [ unit-tests ]
 
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
 
