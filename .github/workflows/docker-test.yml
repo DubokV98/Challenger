@@ -61,12 +61,12 @@ jobs:
          mvn package -DskipTests
           
      - name: Storage Service Dockerfile creation
-         run: |
-           cat <<EOF > ${{ env.SS_APP_NAME }}/Dockerfile
-           FROM corretto:17
-           COPY ./target/${{ env.CAS_APP_NAME }}-0.0.1-SNAPSHOT.jar /${{ env.CAS_APP_NAME }}
-           EXPOSE ${{ env.SS_PORT }}
-           CMD java -jar ${{ env.SS_APP_NAME }}-0.0.1-SNAPSHOT.jar ${{ env.CLIENT_ID }} ${{ env.CLIENT_SECRET }} ${{ env.VAULT_ENDPOINT }} ${{ env.TENANT_ID }}
-           EOF
-           cat ${{ env.SS_APP_NAME }}/Dockerfile
+       run: |
+         cat <<EOF > ${{ env.SS_APP_NAME }}/Dockerfile
+         FROM corretto:17
+         COPY ./target/${{ env.CAS_APP_NAME }}-0.0.1-SNAPSHOT.jar /${{ env.CAS_APP_NAME }}
+         EXPOSE ${{ env.SS_PORT }}
+         CMD java -jar ${{ env.SS_APP_NAME }}-0.0.1-SNAPSHOT.jar ${{ env.CLIENT_ID }} ${{ env.CLIENT_SECRET }} ${{ env.VAULT_ENDPOINT }} ${{ env.TENANT_ID }}
+         EOF
+         cat ${{ env.SS_APP_NAME }}/Dockerfile
       
