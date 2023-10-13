@@ -7,66 +7,66 @@ jobs:
   build:
    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
 
-    runs-on: ubuntu-latest
+   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout data
-        uses: actions/checkout@v3
+   steps:
+     - name: Checkout data
+       uses: actions/checkout@v3
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+     - name: Login to DockerHub
+       uses: docker/login-action@v2
+       with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Corretto install
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'corretto'
-          java-version: '17'
+     - name: Corretto install
+       uses: actions/setup-java@v3
+       with:
+         distribution: 'corretto'
+         java-version: '17'
 
-      - name: Java version
-        run: |
-          echo "######### CORRETTO VERSION #########"
-          java -version
-          echo "####################################"
+     - name: Java version
+       run: |
+         echo "######### CORRETTO VERSION #########"
+         java -version
+         echo "####################################"
 
-      - name: Maven setup
-        uses: s4u/setup-maven-action@v1.6.0
-        with:
-          java-version: 17
-          maven-version: 3.8.6
+     - name: Maven setup
+       uses: s4u/setup-maven-action@v1.6.0
+       with:
+         java-version: 17
+         maven-version: 3.8.6
 
-      - name: Maven version
-        run: |
-          echo "########## MAVEN VERSION ###########"
-          mvn -version
-          echo "####################################"      
+     - name: Maven version
+       run: |
+         echo "########## MAVEN VERSION ###########"
+         mvn -version
+         echo "####################################"      
 
-      - name: Set General env
-        run: |
-          echo "################# STORAGE SERVICE ENV ##################"
-          echo "SS_APP_NAME=storage-service" >> $GITHUB_ENV
-          echo "SS_PORT=80" >> $GITHUB_ENV
-          echo "########################################################"     
+     - name: Set General env
+       run: |
+         echo "################# STORAGE SERVICE ENV ##################"
+         echo "SS_APP_NAME=storage-service" >> $GITHUB_ENV
+         echo "SS_PORT=80" >> $GITHUB_ENV
+         echo "########################################################"     
 
-      - name: Common module install
-        working-directory: ./common
-        run: |
-          mvn clean install -DskipTests
+     - name: Common module install
+       working-directory: ./common
+       run: |
+         mvn clean install -DskipTests
 
-      - name: Storage service build
-        working-directory: ./${{ env.SS_APP_NAME }}
-        run: |
-          mvn package -DskipTests
+     - name: Storage service build
+       working-directory: ./${{ env.SS_APP_NAME }}
+       run: |
+         mvn package -DskipTests
           
-      - name: Storage Service Dockerfile creation
-          run: |
-            cat <<EOF > ${{ env.SS_APP_NAME }}/Dockerfile
-            FROM corretto:17
-            COPY ./target/${{ env.CAS_APP_NAME }}-0.0.1-SNAPSHOT.jar /${{ env.CAS_APP_NAME }}
-            EXPOSE ${{ env.SS_PORT }}
-            CMD java -jar ${{ env.SS_APP_NAME }}-0.0.1-SNAPSHOT.jar ${{ env.CLIENT_ID }} ${{ env.CLIENT_SECRET }} ${{ env.VAULT_ENDPOINT }} ${{ env.TENANT_ID }}
-            EOF
-            cat ${{ env.SS_APP_NAME }}/Dockerfile
+     - name: Storage Service Dockerfile creation
+         run: |
+           cat <<EOF > ${{ env.SS_APP_NAME }}/Dockerfile
+           FROM corretto:17
+           COPY ./target/${{ env.CAS_APP_NAME }}-0.0.1-SNAPSHOT.jar /${{ env.CAS_APP_NAME }}
+           EXPOSE ${{ env.SS_PORT }}
+           CMD java -jar ${{ env.SS_APP_NAME }}-0.0.1-SNAPSHOT.jar ${{ env.CLIENT_ID }} ${{ env.CLIENT_SECRET }} ${{ env.VAULT_ENDPOINT }} ${{ env.TENANT_ID }}
+           EOF
+           cat ${{ env.SS_APP_NAME }}/Dockerfile
       
