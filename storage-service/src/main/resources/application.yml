@@ -8,5 +8,5 @@ spring:
     mongodb:
       database: challenger
       authentication-database: admin
-      uri: mongodb://admin:admin@localhost:27017
+      uri: mongodb://admin:admin@challenger_mongo:27017
       auto-index-creation: true
